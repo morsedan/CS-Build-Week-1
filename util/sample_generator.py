@@ -45,7 +45,8 @@ class World:
         '''
         Fill up the grid, bottom to top, in a zig-zag pattern
         '''
-
+        # return a 0/1 version of this grid thats generated to 
+        # Front end.
         # Initialize the grid
         self.grid = [None] * size_y
         self.width = size_x
@@ -157,6 +158,13 @@ width = 8
 height = 7
 w.generate_rooms(width, height, num_rooms)
 w.print_rooms()
+
+import pickle
+
+with open('room_grid.obj','wb') as f:
+    pickle.dump(w.grid,f)
+    print('the pickle worked')
+
 
 
 print(f"\n\nWorld\n  height: {height}\n  width: {width},\n  num_rooms: {num_rooms}\n")

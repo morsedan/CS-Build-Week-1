@@ -14,3 +14,5 @@ db.sqlite3
 
 tmp
 .vscode/
+
+scratch.py

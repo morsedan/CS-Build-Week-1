@@ -11,6 +11,22 @@ import json
 # instantiate pusher
 # pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_KEY'), secret=config('PUSHER_SECRET'), cluster=config('PUSHER_CLUSTER'))
 
+
+import sys
+import os 
+base = os.getcwd()
+sys.path.append(base + '/adventure')
+
+from sample_generator import Room
+
+import pickle
+import os
+print("THIS IS CWD>>",os.getcwd())
+with open('room_grid.obj','rb') as f:
+    room_grid =  pickle.load(f)
+
+
+
 @csrf_exempt
 @api_view(["GET"])
 def initialize(request):
@@ -22,6 +38,10 @@ def initialize(request):
     players = room.playerNames(player_id)
     return JsonResponse({'uuid': uuid, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players}, safe=True)
 
+@api_view(["GET"])
+def world(request):
+    new_arr = [[1 if i else 0 for i in item] for item in room_grid]
+    return JsonResponse({'room_grid':new_arr})
 
 # @csrf_exempt
 @api_view(["POST"])

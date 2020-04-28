@@ -12,18 +12,18 @@ import json
 # pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_KEY'), secret=config('PUSHER_SECRET'), cluster=config('PUSHER_CLUSTER'))
 
 
-import sys
-import os 
-base = os.getcwd()
-sys.path.append(base + '/adventure')
+# import sys
+# import os
+# base = os.getcwd()
+# sys.path.append(base + '/adventure')
 
-from sample_generator import Room
+# from sample_generator import Room
 
-import pickle
-import os
-print("THIS IS CWD>>",os.getcwd())
-with open('room_grid.obj','rb') as f:
-    room_grid =  pickle.load(f)
+# import pickle
+# import os
+# print("THIS IS CWD>>",os.getcwd())
+# with open('room_grid.obj','rb') as f:
+#     room_grid =  pickle.load(f)
 
 
 
@@ -51,7 +51,7 @@ def move(request):
     player = request.user.player
     player_id = player.id
     player_uuid = player.uuid
-    data = json.loads(request.body)
+    data = request.data #  json.loads(request.body)
     direction = data['direction']
     room = player.room()
     nextRoomID = None
@@ -63,11 +63,17 @@ def move(request):
         nextRoomID = room.e_to
     elif direction == "w":
         nextRoomID = room.w_to
+    print("0. ", nextRoomID)
     if nextRoomID is not None and nextRoomID > 0:
+        print("1. ", nextRoomID)
         nextRoom = Room.objects.get(id=nextRoomID)
+        print("2. ", nextRoomID)
         player.currentRoom=nextRoomID
+        print("3. ", nextRoomID)
         player.save()
+        print("4. ", nextRoomID)
         players = nextRoom.playerNames(player_id)
+        print("5. ", nextRoomID)
         currentPlayerUUIDs = room.playerUUIDs(player_id)
         nextPlayerUUIDs = nextRoom.playerUUIDs(player_id)
         # for p_uuid in currentPlayerUUIDs:

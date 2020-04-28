@@ -13,7 +13,9 @@ import json
 
 
 import sys
-sys.path.append('G:/Data/Lambda/CS/CS-Build-Week-1/adventure')
+import os 
+base = os.getcwd()
+sys.path.append(base + '/adventure')
 
 from sample_generator import Room
 

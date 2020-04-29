@@ -11,34 +11,34 @@ import json
 # instantiate pusher
 # pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_KEY'), secret=config('PUSHER_SECRET'), cluster=config('PUSHER_CLUSTER'))
 
-size = 15  # TODO figure out how to derive this from the rooms
-all_rooms = Room.objects.all()
-room_arr_temp = []
-room_arr = []
-row_count = 0
-for room in all_rooms:
-    if room.n_to or room.s_to or room.w_to or room.e_to:
-        room_arr_temp.append(1)
-    else:
-        room_arr_temp.append(0)
-    row_count += 1
-    if row_count == size:
-        row_count = 0
-        room_arr.append(room_arr_temp)
-        room_arr_temp = []
-        row_count == 1
-
-room_dicts = []
-for room in all_rooms:
-    room_dict = {}
-    room_dict['room_id'] = room.room_id
-    room_dict['title'] = room.title
-    room_dict['description'] = room.description
-    room_dict['n_to'] = room.n_to
-    room_dict['s_to'] = room.s_to
-    room_dict['e_to'] = room.e_to
-    room_dict['w_to'] = room.w_to
-    room_dicts.append(room_dict)
+# size = 15  # TODO figure out how to derive this from the rooms
+# all_rooms = Room.objects.all()
+# room_arr_temp = []
+# room_arr = []
+# row_count = 0
+# for room in all_rooms:
+#     if room.n_to or room.s_to or room.w_to or room.e_to:
+#         room_arr_temp.append(1)
+#     else:
+#         room_arr_temp.append(0)
+#     row_count += 1
+#     if row_count == size:
+#         row_count = 0
+#         room_arr.append(room_arr_temp)
+#         room_arr_temp = []
+#         row_count == 1
+#
+# room_dicts = []
+# for room in all_rooms:
+#     room_dict = {}
+#     room_dict['room_id'] = room.room_id
+#     room_dict['title'] = room.title
+#     room_dict['description'] = room.description
+#     room_dict['n_to'] = room.n_to
+#     room_dict['s_to'] = room.s_to
+#     room_dict['e_to'] = room.e_to
+#     room_dict['w_to'] = room.w_to
+#     room_dicts.append(room_dict)
 
 @csrf_exempt
 @api_view(["GET"])

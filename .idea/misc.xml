@@ -3,6 +3,7 @@
   <component name="ProjectPlainTextFileTypeManager">
     <file url="file://$PROJECT_DIR$/.env" />
   </component>
+  <component name="ProjectRootManager" version="2" project-jdk-name="Pipenv (CS-Build-Week-1)" project-jdk-type="Python SDK" />
   <component name="PyCharmProfessionalAdvertiser">
     <option name="shown" value="true" />
   </component>

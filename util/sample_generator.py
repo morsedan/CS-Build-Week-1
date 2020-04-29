@@ -17,10 +17,11 @@ class Room:
         self.w_to = None
         self.x = x
         self.y = y
-    def __repr__(self):
-        if self.e_to is not None:
-            return f"({self.x}, {self.y}) -> ({self.e_to.x}, {self.e_to.y})"
-        return f"({self.x}, {self.y})"
+    # def __repr__(self):
+    #     if self.e_to is not None:
+    #         return f"({self.x}, {self.y}) -> ({self.e_to.x}, {self.e_to.y})"
+    #     return f"({self.x}, {self.y})"
+
     def connect_rooms(self, connecting_room, direction):
         '''
         Connect two rooms in the given n/s/e/w direction
@@ -29,6 +30,7 @@ class Room:
         reverse_dir = reverse_dirs[direction]
         setattr(self, f"{direction}_to", connecting_room)
         setattr(connecting_room, f"{reverse_dir}_to", self)
+
     def get_room_in_direction(self, direction):
         '''
         Connect two rooms in the given n/s/e/w direction
@@ -41,11 +43,12 @@ class World:
         self.grid = None
         self.width = 0
         self.height = 0
+
     def generate_rooms(self, size_x, size_y, num_rooms):
         '''
         Fill up the grid, bottom to top, in a zig-zag pattern
         '''
-        # return a 0/1 version of this grid thats generated to 
+        # return a 0/1 version of this grid thats generated to
         # Front end.
         # Initialize the grid
         self.grid = [None] * size_y
@@ -94,77 +97,77 @@ class World:
             # Update iteration variables
             previous_room = room
             room_count += 1
-
-
-
-    def print_rooms(self):
-        '''
-        Print the rooms in room_grid in ascii characters.
-        '''
-
-        # Add top border
-        str = "# " * ((3 + self.width * 5) // 2) + "\n"
-
-        # The console prints top to bottom but our array is arranged
-        # bottom to top.
-        #
-        # We reverse it so it draws in the right direction.
-        reverse_grid = list(self.grid) # make a copy of the list
-        reverse_grid.reverse()
-        for row in reverse_grid:
-            # PRINT NORTH CONNECTION ROW
-            str += "#"
-            for room in row:
-                if room is not None and room.n_to is not None:
-                    str += "  |  "
-                else:
-                    str += "     "
-            str += "#\n"
-            # PRINT ROOM ROW
-            str += "#"
-            for room in row:
-                if room is not None and room.w_to is not None:
-                    str += "-"
-                else:
-                    str += " "
-                if room is not None:
-                    str += f"{room.id}".zfill(3)
-                else:
-                    str += "   "
-                if room is not None and room.e_to is not None:
-                    str += "-"
-                else:
-                    str += " "
-            str += "#\n"
-            # PRINT SOUTH CONNECTION ROW
-            str += "#"
-            for room in row:
-                if room is not None and room.s_to is not None:
-                    str += "  |  "
-                else:
-                    str += "     "
-            str += "#\n"
-
-        # Add bottom border
-        str += "# " * ((3 + self.width * 5) // 2) + "\n"
-
-        # Print string
-        print(str)
-
-
-w = World()
-num_rooms = 44
-width = 8
-height = 7
-w.generate_rooms(width, height, num_rooms)
-w.print_rooms()
-
-import pickle
-
-with open('room_grid.obj','wb') as f:
-    pickle.dump(w.grid,f)
-    print('the pickle worked')
-
-
-
-print(f"\n\nWorld\n  height: {height}\n  width: {width},\n  num_rooms: {num_rooms}\n")
+#
+#
+#
+#     def print_rooms(self):
+#         '''
+#         Print the rooms in room_grid in ascii characters.
+#         '''
+#
+#         # Add top border
+#         str = "# " * ((3 + self.width * 5) // 2) + "\n"
+#
+#         # The console prints top to bottom but our array is arranged
+#         # bottom to top.
+#         #
+#         # We reverse it so it draws in the right direction.
+#         reverse_grid = list(self.grid) # make a copy of the list
+#         reverse_grid.reverse()
+#         for row in reverse_grid:
+#             # PRINT NORTH CONNECTION ROW
+#             str += "#"
+#             for room in row:
+#                 if room is not None and room.n_to is not None:
+#                     str += "  |  "
+#                 else:
+#                     str += "     "
+#             str += "#\n"
+#             # PRINT ROOM ROW
+#             str += "#"
+#             for room in row:
+#                 if room is not None and room.w_to is not None:
+#                     str += "-"
+#                 else:
+#                     str += " "
+#                 if room is not None:
+#                     str += f"{room.id}".zfill(3)
+#                 else:
+#                     str += "   "
+#                 if room is not None and room.e_to is not None:
+#                     str += "-"
+#                 else:
+#                     str += " "
+#             str += "#\n"
+#             # PRINT SOUTH CONNECTION ROW
+#             str += "#"
+#             for room in row:
+#                 if room is not None and room.s_to is not None:
+#                     str += "  |  "
+#                 else:
+#                     str += "     "
+#             str += "#\n"
+#
+#         # Add bottom border
+#         str += "# " * ((3 + self.width * 5) // 2) + "\n"
+#
+#         # Print string
+#         print(str)
+#
+#
+# w = World()
+# num_rooms = 44
+# width = 8
+# height = 7
+# w.generate_rooms(width, height, num_rooms)
+# w.print_rooms()
+#
+# import pickle
+#
+# with open('room_grid.obj','wb') as f:
+#     pickle.dump(w.grid,f)
+#     print('the pickle worked')
+#
+#
+#
+# print(f"\n\nWorld\n  height: {height}\n  width: {width},\n  num_rooms: {num_rooms}\n")

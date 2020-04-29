@@ -52,7 +52,7 @@ class Player(models.Model):
 
     def room(self):
         try:
-            return Room.objects.get(id=self.currentRoom)
+            return Room.objects.get(room_id=self.currentRoom)
         except Room.DoesNotExist:
             self.initialize()
             return self.room()

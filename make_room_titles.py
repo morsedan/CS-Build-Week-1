@@ -31,6 +31,8 @@ def text_gen():
     demon = demons[random.randint(0, len(demons) - 1)]
     place = places[random.randint(0, len(places) - 1)]
     title = f'The {adjective.upper()} {ingredient.title()} {place.title()}'
+    if len(title) > 50:
+        print("Whoa!!! That's a loooooong title!")
     description = f'Entering this room fills you with {feeling}. The {adjective2} aroma of {ingredient} fills the air. Watch out for the {demon}!\n'
     return title, description
     

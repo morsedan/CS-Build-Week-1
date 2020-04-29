@@ -1,9 +1,11 @@
 import sys
 
-sys.path.append('/Users/morse/dev/CS28-Sprint4/CS-Build-Week-1/adventure/')
-from adventure.models import Room as DjangoRoom
+# sys.path.append('/Users/morse/dev/CS28-Sprint4/CS-Build-Week-1/adventure/')
+# from adventure.models import Room as DjangoRoom
 
 from random import randint
+
+from make_room_titles import text_gen
 
 class Room:
     def __init__(self, id):
@@ -14,7 +16,7 @@ class Room:
         self.w_to = None
         self.is_accessible = True
         self.title = None
-        self.description = "A room, "
+        self.description = None
 
 class RoomGen:
     def __init__(self):
@@ -41,8 +43,10 @@ class RoomGen:
         # set each room's directions
         for i in range(len(rooms)):
             room = rooms[i]
-            room.title = f"Room {id}"
-            room.description += f"{id}"
+            rand_title, rand_description = text_gen()
+            room.title = rand_title
+            room.description = rand_description
+            
             n_index = i - width
             s_index = i + width
             e_index = i + 1
@@ -63,6 +67,34 @@ class RoomGen:
             if i % width != 0:
                 if rooms[w_index].is_accessible:
                     room.w_to = w_index + 1
+
+            # now add to the description text 
+            exits = []
+            if room.n_to:
+                exits.append("north")
+            if room.s_to:
+                exits.append("south")
+            if room.w_to:
+                exits.append("west")
+            if room.e_to:
+                exits.append("east")
+
+            exits_text = ''
+            if len(exits) == 0:
+                pass
+            elif len(exits)>2:
+                for i in exits[:-1]:
+                    exits_text += i + ", "
+                exits_text += (f'and {exits[-1]}')
+            elif len(exits) == 2:
+                exits_text += exits[0] + " and " + exits[1]
+            else:
+                exits_text += exits[0]
+            
+            if len(exits) == 1:
+                room.description += f"There is an exit to the {exits_text}"
+            else:
+                room.description += f"There are exits to the {exits_text}"
 
         # put rooms into rows
         rooms_in_rows = []
@@ -99,5 +131,13 @@ class RoomGen:
 
 rg = RoomGen()
 rg.create_rooms(15,15)
+# used to print and check the generator
+# for i in rg.rooms:
+#     for room in i:
+#         print(room.title,'\n',room.description,'\n')
+
+# used to update the file (when this file is imported from the manage.py shell env)
 rg.create_django_rooms()
+
+# confirmation message
 print(f"Created {len(rg.rooms)} * {len(rg.rooms[0])} rooms.")

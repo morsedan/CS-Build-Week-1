@@ -46,7 +46,6 @@ def world(request):
     # new_arr = [[1 if i else 0 for i in item] for item in room_grid]
     return JsonResponse({'room_grid': room_arr})
 
-def
 
 
 # @csrf_exempt

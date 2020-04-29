@@ -24,13 +24,17 @@ with open(os.path.join(sys.path[0], 'demons.txt'), 'r') as f:
 
 
 def text_gen():
-    adjective = adjectives[random.randint(0, len(adjectives) - 1)]
-    adjective2 = smell_adjectives[random.randint(0, len(smell_adjectives) - 1)]
-    ingredient = ingredients[random.randint(0, len(ingredients) - 1)]
-    feeling = feelings[random.randint(0, len(feelings) - 1)]
+    title = "123456789012345678901234567890123456789012345678901234567890"
+
+    while len(title) > 50:
+        adjective = adjectives[random.randint(0, len(adjectives) - 1)]
+        place = places[random.randint(0, len(places) - 1)]
+        ingredient = ingredients[random.randint(0, len(ingredients) - 1)]
+        title = f'The {adjective.upper()} {ingredient.title()} {place.title()}'
+
     demon = demons[random.randint(0, len(demons) - 1)]
-    place = places[random.randint(0, len(places) - 1)]
-    title = f'The {adjective.upper()} {ingredient.title()} {place.title()}'
+    adjective2 = smell_adjectives[random.randint(0, len(smell_adjectives) - 1)]
+    feeling = feelings[random.randint(0, len(feelings) - 1)]
     description = f'Entering this room fills you with {feeling}. The {adjective2} aroma of {ingredient} fills the air. Watch out for the {demon}!\n'
     return title, description
     

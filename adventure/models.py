@@ -15,7 +15,7 @@ class Room(models.Model):
     w_to = models.IntegerField(default=0)
 
     def connectRooms(self, destinationRoom, direction):
-        destinationRoomID = destinationRoom.id
+        destinationRoomID = destinationRoom.room_id
         try:
             destinationRoom = Room.objects.get(room_id=destinationRoomID)
         except Room.DoesNotExist:
@@ -35,9 +35,9 @@ class Room(models.Model):
             self.save()
 
     def playerNames(self, currentPlayerID):
-        return [p.user.username for p in Player.objects.filter(currentRoom=self.id) if p.id != int(currentPlayerID)]
+        return [p.user.username for p in Player.objects.filter(currentRoom=self.room_id) if p.id != int(currentPlayerID)]
     def playerUUIDs(self, currentPlayerID):
-        return [p.uuid for p in Player.objects.filter(currentRoom=self.id) if p.id != int(currentPlayerID)]
+        return [p.uuid for p in Player.objects.filter(currentRoom=self.room_id) if p.id != int(currentPlayerID)]
 
 
 class Player(models.Model):
@@ -47,7 +47,7 @@ class Player(models.Model):
 
     def initialize(self):
         if self.currentRoom == 0:
-            self.currentRoom = Room.objects.first().id
+            self.currentRoom = Room.objects.first().room_id
             self.save()
 
     def room(self):

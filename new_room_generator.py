@@ -1,7 +1,7 @@
 import sys
 
-# sys.path.append('/Users/morse/dev/CS28-Sprint4/CS-Build-Week-1/adventure/')
-# from adventure.models import Room as DjangoRoom
+sys.path.append('/Users/morse/dev/CS28-Sprint4/CS-Build-Week-1/adventure/')
+from adventure.models import Room as DjangoRoom
 
 from random import randint
 

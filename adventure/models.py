@@ -6,6 +6,7 @@ from rest_framework.authtoken.models import Token
 import uuid
 
 class Room(models.Model):
+    room_id = models.IntegerField()
     title = models.CharField(max_length=50, default="DEFAULT TITLE")
     description = models.CharField(max_length=500, default="DEFAULT DESCRIPTION")
     n_to = models.IntegerField(default=0)
@@ -16,7 +17,7 @@ class Room(models.Model):
     def connectRooms(self, destinationRoom, direction):
         destinationRoomID = destinationRoom.id
         try:
-            destinationRoom = Room.objects.get(id=destinationRoomID)
+            destinationRoom = Room.objects.get(room_id=destinationRoomID)
         except Room.DoesNotExist:
             print("That room does not exist")
         else:

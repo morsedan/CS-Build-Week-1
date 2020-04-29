@@ -11,20 +11,20 @@ import json
 # instantiate pusher
 # pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_KEY'), secret=config('PUSHER_SECRET'), cluster=config('PUSHER_CLUSTER'))
 
-
-# import sys
-# import os
-# base = os.getcwd()
-# sys.path.append(base + '/adventure')
-
-# from sample_generator import Room
-
-# import pickle
-# import os
-# print("THIS IS CWD>>",os.getcwd())
-# with open('room_grid.obj','rb') as f:
-#     room_grid =  pickle.load(f)
-
+size = 15  # TODO figure out how to derive this from the rooms
+all_rooms = Room.objects.all()
+room_arr_temp = []
+room_arr = []
+row_count = 1
+for i in all_rooms():
+    if i.n_to and i.s_to and i.w_to and i.e_to:
+        room_arr_temp.append(1)
+    else:
+        room_arr_temp.append(0)
+    row_count += 1
+    if row_count == size:
+        room_arr.append(room_arr_temp)
+        row_count == 1
 
 
 @csrf_exempt
@@ -36,22 +36,28 @@ def initialize(request):
     uuid = player.uuid
     room = player.room()
     players = room.playerNames(player_id)
-    return JsonResponse({'uuid': uuid, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players}, safe=True)
+    return JsonResponse(
+        {'uuid': uuid, 'name': player.user.username, 'title': room.title, 'description': room.description,
+         'players': players}, safe=True)
+
 
 @api_view(["GET"])
 def world(request):
-    new_arr = [[1 if i else 0 for i in item] for item in room_grid]
-    return JsonResponse({'room_grid':new_arr})
+    # new_arr = [[1 if i else 0 for i in item] for item in room_grid]
+    return JsonResponse({'room_grid': room_arr})
+
+def
+
 
 # @csrf_exempt
 @api_view(["POST"])
 def move(request):
-    dirs={"n": "north", "s": "south", "e": "east", "w": "west"}
+    dirs = {"n": "north", "s": "south", "e": "east", "w": "west"}
     reverse_dirs = {"n": "south", "s": "north", "e": "west", "w": "east"}
     player = request.user.player
     player_id = player.id
     player_uuid = player.uuid
-    data = request.data #  json.loads(request.body)
+    data = request.data  # json.loads(request.body)
     direction = data['direction']
     room = player.room()
     nextRoomID = None
@@ -66,9 +72,9 @@ def move(request):
     print("0. ", nextRoomID)
     if nextRoomID is not None and nextRoomID > 0:
         print("1. ", nextRoomID)
-        nextRoom = Room.objects.get(id=nextRoomID)
+        nextRoom = Room.objects.get(room_id=nextRoomID)
         print("2. ", nextRoomID)
-        player.currentRoom=nextRoomID
+        player.currentRoom = nextRoomID
         print("3. ", nextRoomID)
         player.save()
         print("4. ", nextRoomID)
@@ -80,14 +86,17 @@ def move(request):
         #     pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} has walked {dirs[direction]}.'})
         # for p_uuid in nextPlayerUUIDs:
         #     pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} has entered from the {reverse_dirs[direction]}.'})
-        return JsonResponse({'name':player.user.username, 'title':nextRoom.title, 'description':nextRoom.description, 'players':players, 'error_msg':""}, safe=True)
+        return JsonResponse({'name': player.user.username, 'title': nextRoom.title, 'description': nextRoom.description,
+                             'players': players, 'error_msg': ""}, safe=True)
     else:
         players = room.playerNames(player_id)
-        return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'error_msg':"You cannot move that way."}, safe=True)
+        return JsonResponse(
+            {'name': player.user.username, 'title': room.title, 'description': room.description, 'players': players,
+             'error_msg': "You cannot move that way."}, safe=True)
 
 
 @csrf_exempt
 @api_view(["POST"])
 def say(request):
     # IMPLEMENT
-    return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)
+    return JsonResponse({'error': "Not yet implemented"}, safe=True, status=500)

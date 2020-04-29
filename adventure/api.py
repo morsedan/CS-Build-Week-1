@@ -51,7 +51,7 @@ def initialize(request):
     players = room.playerNames(player_id)
     return JsonResponse(
         {'uuid': uuid, 'name': player.user.username, 'title': room.title, 'description': room.description,
-         'players': players, 'x': player.currentRoom % 15, 'y': player.currentRoom // 15}, safe=True)
+         'players': players, 'x': player.currentRoom % 15 - 1, 'y': player.currentRoom // 15}, safe=True)
 
 
 @api_view(["GET"])

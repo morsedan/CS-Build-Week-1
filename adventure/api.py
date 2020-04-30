@@ -13,6 +13,8 @@ import json
 
 size = 15  # TODO figure out how to derive this from the rooms
 all_rooms = Room.objects.all()
+all_rooms = list(all_rooms)
+all_rooms.sort(key=lambda x: x.room_id)
 room_arr_temp = []
 room_arr = []
 row_count = 0

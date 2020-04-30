@@ -130,7 +130,7 @@ class RoomGen:
                     django_room.save()
 
 rg = RoomGen()
-rg.create_rooms(15,15)
+rg.create_rooms(15,37)
 # used to print and check the generator
 # for i in rg.rooms:
 #     for room in i:
